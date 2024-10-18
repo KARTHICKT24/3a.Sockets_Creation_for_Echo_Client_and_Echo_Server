@@ -1,6 +1,4 @@
 # 3a.CREATION FOR ECHO CLIENT AND ECHO SERVER USING TCP SOCKETS
-## NAME :KARTHICK KISHORE T
-## REGNO : 212223220042
 # AIM
 To write a python program for creating Echo Client and Echo Server using TCP
 Sockets Links.
@@ -11,33 +9,49 @@ Sockets Links.
  server .
 4. Send and receive the message using the send function in socket.
 ## PROGRAM
-### CLIENT 
-```py
-import socket
-s=socket.socket()
-s.bind(('localhost',8000))
-s.listen(5)
-c,addr=s.accept()
-while True:
-    clientmessage=c.recv(1024).decode()
-    c.send(clientmessage.encode())
 
+## client
 ```
-### SERVER 
-```py
 import socket
-s=socket.socket()
-s.connect(('localhost',8000))
-while True:
-    msg=input("Client>")
-    s.send(msg.encode())
-    print("server>",s.recv(1024).decode())
+
+HOST = '127.0.0.1'  
+PORT = 65432       
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+  s.bind((HOST, PORT))
+  s.listen()
+  conn, addr = s.accept()
+  with conn:
+    print('Connected by', addr)
+    while True:
+      data = conn.recv(1024)
+      if not data:
+        break
+      conn.sendall(data)
 ```
-## OUTPUT
-### CLIENT OUTPUT
-![](./CLIENT.png)
-### SERVER OUTPUT
-![](./SERVER.png)
+## server
+```
+import socket
+
+HOST = '127.0.0.1'  
+PORT = 65432        
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+   s.connect((HOST, PORT))
+   while True:
+      message = input("Enter message to send to server: ")
+      s.sendall(message.encode())
+      data = s.recv(1024)
+      print('Received', repr(data.decode()))
+```
+## OUPUT
+## client
+
+![Screenshot 2024-04-20 125649](https://github.com/Danica-christa/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/151514009/31a08762-33df-40db-b866-651b375597df)
+## server
+
+![Screenshot 2024-04-20 125403](https://github.com/Danica-christa/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/151514009/41ff5777-f6ba-4d5c-8d4b-ad2e1420f5d0)
+
 ## RESULT
 Thus, the python program for creating Echo Client and Echo Server using TCP Sockets Links 
 was successfully created and executed.
